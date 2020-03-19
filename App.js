@@ -5,12 +5,11 @@ import { Audio } from 'expo-av';
 
 const audioBookPlaylist = [
 	{
-		title: 'Hamlet - Act I',
-		author: 'William Shakespeare',
-		source: 'Librivox',
-		uri:
-			'https://ia800204.us.archive.org/11/items/hamlet_0911_librivox/hamlet_act1_shakespeare.mp3',
-		imageSource: 'http://www.archive.org/download/LibrivoxCdCoverArt8/hamlet_1104.jpg'
+        title: 'Bruce-Partington Plans',
+		author: 'Sherlock Holmes - Basil Rathbone - written by Sir Aurthur Conan Doyle',
+		source: 'TCS',
+		uri: 'https://archive.org/download/HQSherlockRathboneTCS/391106.mp3',
+		imageSource: 'https://unsplash.com/photos/q2-Xsj2OX9I'
 	},
 	{
 		title: 'Hamlet - Act II',
