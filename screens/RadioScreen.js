@@ -3,14 +3,20 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
+import { SeekBar } from '../constants/seekBar.jsx';
 
 class RadioScreen extends React.Component {
-	state = {
-		isPlaying: false,
-		playbackInstance: null,
-		currentIndex: 0,
-		volume: 1.0,
-		isBuffering: true
+	constructor(props){
+		super(props);
+		this.state = {
+			isPlaying: false,
+			playbackInstance: null,
+			currentIndex: 0,
+			volume: 1.0,
+			isBuffering: true,
+			paused: true,
+			currentPosition: 0
+		};
 	}
 
 	async componentDidMount() {
@@ -136,6 +142,11 @@ class RadioScreen extends React.Component {
 					<TouchableOpacity style={styles.control} onPress={this.handleNextTrack}>
 						<Ionicons name='ios-skip-forward' size={48} color='#444' />
 					</TouchableOpacity>
+				<SeekBar
+          			onSeek={this.seek.bind(this)}
+          			trackLength={this.state.totalLength}
+          			onSlidingStart={() => this.setState({paused: true})}
+          			currentPosition={this.state.currentPosition} />
 				</View>
 				{this.renderFileInfo()}
 			</View>
