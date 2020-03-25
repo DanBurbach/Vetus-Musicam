@@ -3,7 +3,9 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
-import { SeekBar } from '../constants/seekBar.jsx';
+import Slider from 'react-native-slider';
+
+// import { SeekBar } from '../constants/seekBar.jsx';
 
 class RadioScreen extends React.Component {
 	constructor(props){
@@ -15,7 +17,9 @@ class RadioScreen extends React.Component {
 			volume: 1.0,
 			isBuffering: true,
 			paused: true,
-			currentPosition: 0
+      		sliding: false,
+			currentTime: 0,
+			songIndex: props.songIndex,
 		};
 	}
 
@@ -117,7 +121,40 @@ class RadioScreen extends React.Component {
 		) : null
 	}
 
+	onLoad(params) {
+		this.setState({
+			songDuration: params.duration
+		});
+	}
+
+
+	onSlidingStart() {
+		this.setState({
+			sliding: true
+		});
+	}
+
+	onSlidingChange(value) {
+		let newPosition = value * this.state.songDuration;
+		this.setState({
+			currentTime: newPosition
+		});
+	}
+
+	onSlidingComplete() {
+		this.refs.audio.seek(this.state.currentTime);
+		this.setState({
+			sliding: false
+		});
+	}
+
 	render() {
+		    let songPercentage;
+		    if (this.state.songDuration !== undefined) {
+		    	songPercentage = this.state.currentTime / this.state.songDuration;
+		    } else {
+		    	songPercentage = 0;
+		    }
 		return (
 			<View style={styles.container}>
 				<Image
@@ -142,11 +179,15 @@ class RadioScreen extends React.Component {
 					<TouchableOpacity style={styles.control} onPress={this.handleNextTrack}>
 						<Ionicons name='ios-skip-forward' size={48} color='#444' />
 					</TouchableOpacity>
-				<SeekBar
-          			onSeek={this.seek.bind(this)}
-          			trackLength={this.state.totalLength}
-          			onSlidingStart={() => this.setState({paused: true})}
-          			currentPosition={this.state.currentPosition} />
+					<Slider
+						onSlidingStart={ this.onSlidingStart.bind(this) }
+						onSlidingComplete={ this.onSlidingComplete.bind(this) }
+						onValueChange={ this.onSlidingChange.bind(this) }
+						minimumTrackTintColor='#851c44'
+						style={ styles.slider }
+						trackStyle={ styles.sliderTrack }
+						thumbStyle={ styles.sliderThumb }
+						value={ songPercentage }/>
 				</View>
 				{this.renderFileInfo()}
 			</View>
@@ -188,5 +229,25 @@ const styles = StyleSheet.create({
 	},
 	controls: {
 		flexDirection: 'row'
+	},
+	slider: {
+			height: 20,
+	},
+	sliderTrack: {
+		height: 2,
+		backgroundColor: '#333',
+	},
+	sliderThumb: {
+		width: 10,
+		height: 10,
+		backgroundColor: '#f62976',
+		borderRadius: 10 / 2,
+		shadowColor: 'red',
+		shadowOffset: {
+			width: 0,
+			height: 0
+		},
+		shadowRadius: 2,
+		shadowOpacity: 1,
 	}
 })
