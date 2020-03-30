@@ -20,7 +20,9 @@ class RadioScreen extends React.Component {
       		sliding: false,
 			currentTime: 0,
 			songIndex: props.songIndex,
+			songDuration: audioBookPlaylist[currentIndex].length
 		};
+		this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
 	}
 
 	async componentDidMount() {
@@ -121,10 +123,11 @@ class RadioScreen extends React.Component {
 		) : null
 	}
 
-	onLoad(params) {
+	onLoad() {
 		this.setState({
-			songDuration: params.duration
+			songDuration: audioBookPlaylist[currentIndex].length
 		});
+		console.log(this.state.songDuration)
 	}
 
 

@@ -4,7 +4,8 @@ export const audioBookPlaylist = [
 		author: 'Sherlock Holmes - Basil Rathbone and Nigel Bruce - written by Sir Aurthur Conan Doyle',
 		source: 'TCS',
 		uri: 'https://archive.org/download/HQSherlockRathboneTCS/391106.mp3',
-		imageSource: 'https://images.unsplash.com/photo-1545114687-ab1c9f9fc260?ixlib=rb-1.2.1&auto=format&fit=crop&w=2917&q=80.jpg'
+		imageSource: 'https://images.unsplash.com/photo-1545114687-ab1c9f9fc260?ixlib=rb-1.2.1&auto=format&fit=crop&w=2917&q=80.jpg',
+		length: '29:24'
 	},
 	{
 		title: 'The Retired Colourman',
