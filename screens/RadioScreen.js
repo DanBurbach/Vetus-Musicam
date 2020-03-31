@@ -3,9 +3,8 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
-import Slider from 'react-native-slider';
 
-// import { SeekBar } from '../constants/seekBar.jsx';
+// import Slider from 'react-native-slider';
 
 class RadioScreen extends React.Component {
 	constructor(props){
@@ -19,8 +18,7 @@ class RadioScreen extends React.Component {
 			paused: true,
       		sliding: false,
 			currentTime: 0,
-			songIndex: props.songIndex,
-			songDuration: audioBookPlaylist[currentIndex].length
+			songIndex: props.songIndex
 		};
 		this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
 	}
@@ -123,33 +121,33 @@ class RadioScreen extends React.Component {
 		) : null
 	}
 
-	onLoad() {
-		this.setState({
-			songDuration: audioBookPlaylist[currentIndex].length
-		});
-		console.log(this.state.songDuration)
-	}
+	// onLoad() {
+	// 	this.setState({
+	// 		songDuration: audioBookPlaylist[currentIndex].length
+	// 	});
+	// 	console.log(this.state.songDuration)
+	// }
 
 
-	onSlidingStart() {
-		this.setState({
-			sliding: true
-		});
-	}
+	// onSlidingStart() {
+	// 	this.setState({
+	// 		sliding: true
+	// 	});
+	// }
 
-	onSlidingChange(value) {
-		let newPosition = value * this.state.songDuration;
-		this.setState({
-			currentTime: newPosition
-		});
-	}
+	// onSlidingChange(value) {
+	// 	let newPosition = value * this.state.songDuration;
+	// 	this.setState({
+	// 		currentTime: newPosition
+	// 	});
+	// }
 
-	onSlidingComplete() {
-		this.refs.audio.seek(this.state.currentTime);
-		this.setState({
-			sliding: false
-		});
-	}
+	// onSlidingComplete() {
+	// 	this.refs.audio.seek(this.state.currentTime);
+	// 	this.setState({
+	// 		sliding: false
+	// 	});
+	// }
 
 	render() {
 		    let songPercentage;
@@ -168,6 +166,7 @@ class RadioScreen extends React.Component {
 						}
 					}
 				/>
+
 				<View style={styles.controls}>
 					<TouchableOpacity style={styles.control} onPress={this.handlePreviousTrack}>
 						<Ionicons name='ios-skip-backward' size={48} color='#444' />
@@ -182,7 +181,7 @@ class RadioScreen extends React.Component {
 					<TouchableOpacity style={styles.control} onPress={this.handleNextTrack}>
 						<Ionicons name='ios-skip-forward' size={48} color='#444' />
 					</TouchableOpacity>
-					<Slider
+					{/* <Slider
 						onSlidingStart={ this.onSlidingStart.bind(this) }
 						onSlidingComplete={ this.onSlidingComplete.bind(this) }
 						onValueChange={ this.onSlidingChange.bind(this) }
@@ -190,7 +189,7 @@ class RadioScreen extends React.Component {
 						style={ styles.slider }
 						trackStyle={ styles.sliderTrack }
 						thumbStyle={ styles.sliderThumb }
-						value={ songPercentage }/>
+						value={ songPercentage }/> */}
 				</View>
 				{this.renderFileInfo()}
 			</View>
