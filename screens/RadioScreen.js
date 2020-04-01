@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 
-// import Slider from 'react-native-slider';
+import Slider from 'react-native-slider';
 
 class RadioScreen extends React.Component {
 	constructor(props){
@@ -150,12 +150,9 @@ class RadioScreen extends React.Component {
 	// }
 
 	render() {
-		    let songPercentage;
-		    if (this.state.songDuration !== undefined) {
-		    	songPercentage = this.state.currentTime / this.state.songDuration;
-		    } else {
-		    	songPercentage = 0;
-		    }
+		const {currentIndex} = this.state;
+		let songPercentage = audioBookPlaylist[currentIndex].length;
+
 		return (
 			<View style={styles.container}>
 				<Image
@@ -166,7 +163,19 @@ class RadioScreen extends React.Component {
 						}
 					}
 				/>
-
+				<Slider
+					// onSlidingStart={ this.onSlidingStart.bind(this) }
+					// onSlidingComplete={ this.onSlidingComplete.bind(this) }
+					// onValueChange={ this.onSlidingChange.bind(this) }
+					style={ styles.slider }
+					trackStyle={ styles.sliderTrack }
+					thumbStyle={ styles.sliderThumb }
+					maximumValue={100}
+					minimumValue={0}
+					minimumTrackTintColor="#307ecc"
+					maximumTrackTintColor="#000000"
+					value={songPercentage}
+				/>
 				<View style={styles.controls}>
 					<TouchableOpacity style={styles.control} onPress={this.handlePreviousTrack}>
 						<Ionicons name='ios-skip-backward' size={48} color='#444' />
@@ -181,15 +190,6 @@ class RadioScreen extends React.Component {
 					<TouchableOpacity style={styles.control} onPress={this.handleNextTrack}>
 						<Ionicons name='ios-skip-forward' size={48} color='#444' />
 					</TouchableOpacity>
-					{/* <Slider
-						onSlidingStart={ this.onSlidingStart.bind(this) }
-						onSlidingComplete={ this.onSlidingComplete.bind(this) }
-						onValueChange={ this.onSlidingChange.bind(this) }
-						minimumTrackTintColor='#851c44'
-						style={ styles.slider }
-						trackStyle={ styles.sliderTrack }
-						thumbStyle={ styles.sliderThumb }
-						value={ songPercentage }/> */}
 				</View>
 				{this.renderFileInfo()}
 			</View>
@@ -207,11 +207,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	albumCover: {
-		width: 250,
-		height: 250
+		width: 450,
+		height: 450
 	},
 	trackInfo: {
-		padding: 40,
+		paddingTop: 1,
 		backgroundColor: '#fff'
 	},
 
@@ -221,24 +221,28 @@ const styles = StyleSheet.create({
 		color: '#550088'
 	},
 	largeText: {
-		fontSize: 22
+		fontSize: 20
 	},
 	smallText: {
 		fontSize: 16
 	},
 	control: {
-		margin: 20
+		margin: 25
 	},
 	controls: {
 		flexDirection: 'row'
 	},
+
 	slider: {
-			height: 20,
+		height: 20,
+		backgroundColor: '#000',
+		marginTop: 10
 	},
+
 	sliderTrack: {
 		height: 2,
-		backgroundColor: '#333',
 	},
+
 	sliderThumb: {
 		width: 10,
 		height: 10,
