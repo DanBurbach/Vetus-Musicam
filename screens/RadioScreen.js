@@ -170,9 +170,10 @@ class RadioScreen extends React.Component {
 					style={ styles.slider }
 					trackStyle={ styles.sliderTrack }
 					thumbStyle={ styles.sliderThumb }
-					maximumValue={100}
+					maximumValue = {
+						songPercentage
+					}
 					minimumValue={0}
-					value={songPercentage}
 				/>
 				<View style={styles.controls}>
 					<TouchableOpacity style={styles.control} onPress={this.handlePreviousTrack}>
@@ -201,6 +202,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	albumCover: {
 		width: 450,
@@ -238,9 +241,10 @@ const styles = StyleSheet.create({
 	},
 
 	slider: {
-		height: 20,
+		height: 30,
 		backgroundColor: '#fff',
-		marginTop: 10
+		marginTop: 10,
+		width: 350
 	},
 
 	sliderTrack: {
