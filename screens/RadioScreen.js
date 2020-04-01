@@ -172,8 +172,6 @@ class RadioScreen extends React.Component {
 					thumbStyle={ styles.sliderThumb }
 					maximumValue={100}
 					minimumValue={0}
-					minimumTrackTintColor="#307ecc"
-					maximumTrackTintColor="#000000"
 					value={songPercentage}
 				/>
 				<View style={styles.controls}>
@@ -203,22 +201,24 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
 	},
 	albumCover: {
 		width: 450,
-		height: 450
+		height: 450,
+		justifyContent: 'center'
 	},
 	trackInfo: {
 		paddingTop: 1,
-		backgroundColor: '#fff'
-	},
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center'
+		},
 
 	trackInfoText: {
 		textAlign: 'center',
 		flexWrap: 'wrap',
-		color: '#550088'
+		color: '#550088',
+
 	},
 	largeText: {
 		fontSize: 20
@@ -227,15 +227,19 @@ const styles = StyleSheet.create({
 		fontSize: 16
 	},
 	control: {
-		margin: 25
+		margin: 25,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	controls: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 
 	slider: {
 		height: 20,
-		backgroundColor: '#000',
+		backgroundColor: '#fff',
 		marginTop: 10
 	},
 
