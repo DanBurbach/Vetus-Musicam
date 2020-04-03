@@ -18,7 +18,8 @@ class RadioScreen extends React.Component {
 			paused: true,
       		sliding: false,
 			currentTime: 0,
-			songIndex: props.songIndex
+			songIndex: props.songIndex,
+			songLength: 0
 		};
 		this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
 	}
@@ -58,11 +59,22 @@ class RadioScreen extends React.Component {
 			playbackInstance.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate)
 			await playbackInstance.loadAsync(source, status, false)
 			this.setState({
-				playbackInstance
+				playbackInstance,
+				songLength: this.formatTime(playbackInstance.duration.toFixed(0))
 			})
+			alert("song length: " + this.songLength)
 		} catch (e) {
 			console.log(e)
 		}
+	}
+
+	formatTime(seconds) {
+		const h = Math.floor(seconds / 3600)
+		const m = Math.floor((seconds % 3600) / 60)
+		const s = seconds % 60
+		return [h, m > 9 ? m : h ? '0' + m : m || '0', s > 9 ? s : '0' + s]
+			.filter(a => a)
+			.join(':')
 	}
 
 	onPlaybackStatusUpdate = status => {
@@ -129,25 +141,28 @@ class RadioScreen extends React.Component {
 	// }
 
 
-	// onSlidingStart() {
-	// 	this.setState({
-	// 		sliding: true
-	// 	});
-	// }
+	onSlidingStart = async () => {
+		this.setState({
+			sliding: true
+		});
+	}
 
-	// onSlidingChange(value) {
-	// 	let newPosition = value * this.state.songDuration;
+	// onSlidingChange = async (value) => {
+	// 	let songDuration = this.state.playbackInstance;
+
+
+	// 	let newPosition = value * songDuration;
 	// 	this.setState({
 	// 		currentTime: newPosition
 	// 	});
 	// }
 
-	// onSlidingComplete() {
-	// 	this.refs.audio.seek(this.state.currentTime);
-	// 	this.setState({
-	// 		sliding: false
-	// 	});
-	// }
+	onSlidingComplete = async () => {
+		// this.refs.audio.seek(this.state.currentTime);
+		this.setState({
+			sliding: false
+		});
+	}
 
 	render() {
 		const {currentIndex} = this.state;
@@ -164,8 +179,8 @@ class RadioScreen extends React.Component {
 					}
 				/>
 				<Slider
-					// onSlidingStart={ this.onSlidingStart.bind(this) }
-					// onSlidingComplete={ this.onSlidingComplete.bind(this) }
+					onSlidingStart={ this.onSlidingStart.bind(this) }
+					onSlidingComplete={ this.onSlidingComplete.bind(this) }
 					// onValueChange={ this.onSlidingChange.bind(this) }
 					style={ styles.slider }
 					trackStyle={ styles.sliderTrack }
