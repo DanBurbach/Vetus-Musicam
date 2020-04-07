@@ -6,6 +6,14 @@ import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 
 import Slider from 'react-native-slider';
 
+function getTime(time) {
+	if (!isNaN(time)) {
+		return (
+			Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+		);
+	}
+}
+
 class RadioScreen extends React.Component {
 	constructor(props){
 		super(props);
@@ -16,10 +24,10 @@ class RadioScreen extends React.Component {
 			volume: 1.0,
 			isBuffering: true,
 			paused: true,
+			player: "stopped",
       		sliding: false,
-			currentTime: 0,
-			songIndex: props.songIndex,
-			songLength: 0
+			currentTime: null,
+			duration: null
 		};
 		this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
 	}
@@ -35,11 +43,20 @@ class RadioScreen extends React.Component {
 				staysActiveInBackground: true,
 				playThroughEarpieceAndroid: true
 			})
-
 			this.loadAudio()
 		} catch (e) {
 			console.log(e)
 		}
+		this.player.addEventListener("timeupdate", e => {
+			this.setState({
+				currentTime: e.target.currentTime,
+				duration: e.target.duration
+			});
+		});
+	}
+
+	componentWillUnmount() {
+	  	this.player.removeEventListener("timeupdate", () => {});
 	}
 
 	async loadAudio() {
@@ -60,21 +77,28 @@ class RadioScreen extends React.Component {
 			await playbackInstance.loadAsync(source, status, false)
 			this.setState({
 				playbackInstance,
-				songLength: this.formatTime(playbackInstance.duration.toFixed(0))
 			})
-			alert("song length: " + this.songLength)
+			
+//display in an alert the track length. To be used in Slider funcitonality
+			let playback = playbackInstance.durationMillis
+			
+			alert(playback);
+
+			// this.setState({
+			// 	songLength: this.millisToMinutesAndSeconds(playback.duration.toFixed(0))
+			// })
+			// alert("song length: " + this.state.songLength)
+
 		} catch (e) {
 			console.log(e)
 		}
 	}
 
-	formatTime(seconds) {
-		const h = Math.floor(seconds / 3600)
-		const m = Math.floor((seconds % 3600) / 60)
-		const s = seconds % 60
-		return [h, m > 9 ? m : h ? '0' + m : m || '0', s > 9 ? s : '0' + s]
-			.filter(a => a)
-			.join(':')
+	millisToMinutesAndSeconds = (millis) => {
+		let minutes = Math.floor(millis / 60000);
+		let seconds = ((millis % 60000) / 1000).toFixed(0);
+		return (seconds == 60 ? (minutes + 1) + ":00" : minutes + ":" + (seconds < 10 ? "0" :
+			"") + seconds);
 	}
 
 	onPlaybackStatusUpdate = status => {
@@ -94,11 +118,12 @@ class RadioScreen extends React.Component {
 
 	handlePreviousTrack = async () => {
 		let { playbackInstance, currentIndex } = this.state
+
 		if (playbackInstance) {
 			await playbackInstance.unloadAsync()
 			currentIndex < audioBookPlaylist.length - 1 ? (currentIndex -= 1) : (currentIndex = 0)
 			this.setState({
-				currentIndex
+				currentIndex,
 			})
 			this.loadAudio()
 		}
@@ -110,7 +135,7 @@ class RadioScreen extends React.Component {
 			await playbackInstance.unloadAsync()
 			currentIndex < audioBookPlaylist.length - 1 ? (currentIndex += 1) : (currentIndex = 0)
 			this.setState({
-				currentIndex
+				currentIndex,
 			})
 			this.loadAudio()
 		}
