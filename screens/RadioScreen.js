@@ -317,7 +317,8 @@ import {
 	View,
 } from 'react-native';
 import Slider from 'react-native-slider';
-import { Audio, Font } from 'expo-av';
+import { Audio } from 'expo-av';
+import * as Font from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 
@@ -381,11 +382,11 @@ class RadioScreen extends Component {
 		this._loadNewPlaybackInstance(false);
 	}
 
-	// componentWillUnmount() {
-	// 	this.playbackInstance.unloadAsync();
-	// 	//  Check Your Console To verify that the above line is working
-	// 	console.log('unmount');
-	// }
+	componentWillUnmount() {
+		this.playbackInstance.unloadAsync();
+		//  Check Your Console To verify that the above line is working
+		console.log('unmount');
+	}
 
 	async _loadNewPlaybackInstance(playing) {
 		if (this.playbackInstance != null) {
@@ -591,10 +592,10 @@ class RadioScreen extends Component {
 					/>
 				</View>
 				<View style={styles.detailsContainer}>
-					<Text style={[styles.text, { ...Font.style('spaceMono') }]}>
+					<Text style={[styles.text]}>
 						{this.state.playbackInstanceName}
 					</Text>
-					<Text style={[styles.text, { ...Font.style('spaceMono') }]}>
+					<Text style={[styles.text]}>
 						{this.state.isBuffering ? (
 							BUFFERING_STRING
 						) : (

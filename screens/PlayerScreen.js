@@ -8,7 +8,8 @@ import {
 	View,
 } from 'react-native';
 import Slider from 'react-native-slider';
-import { Audio, Font } from 'expo-av';
+import { Audio } from 'expo-av';
+import * as Font from 'expo-font';
 import { MaterialIcons } from '@expo/vector-icons';
 import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 
