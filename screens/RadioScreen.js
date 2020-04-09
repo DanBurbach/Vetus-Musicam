@@ -335,7 +335,6 @@ import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFFFFF';
 const DISABLED_OPACITY = 0.5;
-const FONT_SIZE = 14;
 const LOADING_STRING = 'Loading...';
 const BUFFERING_STRING = 'Buffering...';
 const RATE_SCALE = 3.0;
@@ -348,7 +347,8 @@ class RadioScreen extends Component {
 		this.shouldPlayAtEndOfSeek = false;
 		this.playbackInstance = null;
 		this.state = {
-			playbackInstanceName: LOADING_STRING,
+			playbackInstanceTitle: LOADING_STRING,
+			playbackInstanceAuthor: LOADING_STRING,
 			playbackInstancePosition: null,
 			playbackInstanceDuration: null,
 			shouldPlay: false,
@@ -416,15 +416,17 @@ class RadioScreen extends Component {
 		if (isLoading) {
 			this.setState({
 				isPlaying: false,
-				playbackInstanceName: LOADING_STRING,
+				playbackInstanceTitle: LOADING_STRING,
+				playbackInstanceAuthor: LOADING_STRING,
 				playbackInstanceDuration: null,
 				playbackInstancePosition: null,
 				isLoading: true,
 			});
 		} else {
 			this.setState({
-				playbackInstanceName: audioBookPlaylist[this.index].name,
-				portrait: audioBookPlaylist[this.index].image,
+				playbackInstanceTitle: audioBookPlaylist[this.index].title,
+				playbackInstanceAuthor: audioBookPlaylist[this.index].author,
+				portrait: audioBookPlaylist[this.index].imageSource,
 				isLoading: false,
 			});
 		}
@@ -593,7 +595,10 @@ class RadioScreen extends Component {
 				</View>
 				<View style={styles.detailsContainer}>
 					<Text style={[styles.text]}>
-						{this.state.playbackInstanceName}
+						{this.state.playbackInstanceTitle}
+					</Text>
+					<Text style={[styles.text]}>
+						{this.state.playbackInstanceAuthor}
 					</Text>
 					<Text style={[styles.text]}>
 						{this.state.isBuffering ? (
@@ -624,7 +629,7 @@ class RadioScreen extends Component {
 							<MaterialIcons
 								name="fast-rewind"
 								size={40}
-								color="#56D5FA"
+								color="#000000"
 							/>
 						</View>
 					</TouchableHighlight>
@@ -639,13 +644,13 @@ class RadioScreen extends Component {
 								<MaterialIcons
 									name="pause"
 									size={40}
-									color="#56D5FA"
+									color="#000000"
 								/>
 							) : (
 								<MaterialIcons
 									name="play-arrow"
 									size={40}
-									color="#56D5FA"
+									color="#000000"
 								/>
 							)}
 						</View>
@@ -660,7 +665,7 @@ class RadioScreen extends Component {
 							<MaterialIcons
 								name="stop"
 								size={40}
-								color="#56D5FA"
+								color="#000000"
 							/>
 						</View>
 					</TouchableHighlight>
@@ -674,7 +679,7 @@ class RadioScreen extends Component {
 							<MaterialIcons
 								name="fast-forward"
 								size={40}
-								color="#56D5FA"
+								color="#000000"
 							/>
 						</View>
 					</TouchableHighlight>
@@ -694,7 +699,8 @@ class RadioScreen extends Component {
 						value={this._getSeekSliderPosition()}
 						onValueChange={this._onSeekSliderValueChange}
 						onSlidingComplete={this._onSeekSliderSlidingComplete}
-						thumbTintColor="#000000"
+						thumbStyle={ styles.sliderThumb }
+						trackStyle={ styles.sliderTrack }
 						minimumTrackTintColor="#4CCFF9"
 						disabled={this.state.isLoading}
 					/>
@@ -710,21 +716,22 @@ class RadioScreen extends Component {
 							<MaterialIcons
 								name="volume-down"
 								size={40}
-								color="#56D5FA"
+								color="#000000"
 							/>
 						</View>
 						<Slider
 							style={styles.volumeSlider}
 							value={1}
 							onValueChange={this._onVolumeSliderValueChange}
-							thumbTintColor="#000000"
+							thumbStyle={ styles.sliderThumb }
+							trackStyle={ styles.sliderTrack }
 							minimumTrackTintColor="#4CCFF9"
 						/>
 						<View>
 							<MaterialIcons
 								name="volume-up"
 								size={40}
-								color="#56D5FA"
+								color="#000000"
 							/>
 						</View>
 					</View>
@@ -738,22 +745,23 @@ class RadioScreen extends Component {
 					<View>
 						<MaterialIcons
 							name="call-received"
-							size={40}
-							color="#56D5FA"
+							size={30}
+							color="#000000"
 						/>
 					</View>
 					<Slider
 						style={styles.rateSlider}
 						value={this.state.rate / RATE_SCALE}
 						onSlidingComplete={this._onRateSliderSlidingComplete}
-						thumbTintColor="#000000"
+						thumbStyle={ styles.sliderThumb }
+						trackStyle={ styles.sliderTrack }
 						minimumTrackTintColor="#4CCFF9"
 					/>
 					<View>
 						<MaterialIcons
 							name="call-made"
-							size={40}
-							color="#56D5FA"
+							size={30}
+							color="#000000"
 						/>
 					</View>
 				</View>
@@ -774,15 +782,15 @@ const styles = StyleSheet.create({
 		backgroundColor: BACKGROUND_COLOR,
 	},
 	portraitContainer: {
-		marginTop: 80,
+		marginTop: 0,
 	},
 	portrait: {
-		height: 200,
-		width: 200,
+		height: 450,
+		width: 450,
 	},
 	detailsContainer: {
-		height: 40,
-		marginTop: 40,
+		height: 90,
+		marginTop: 10,
 		alignItems: 'center',
 	},
 	playbackContainer: {
@@ -798,14 +806,35 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 	},
 	text: {
-		fontSize: FONT_SIZE,
-		minHeight: FONT_SIZE,
+		fontSize: 16,
+		minHeight: 16,
+		marginBottom: 10,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	sliderThumb: {
+		width: 12,
+		height: 12,
+		backgroundColor: '#f62976',
+		borderRadius: 10 / 2,
+		shadowColor: 'red',
+		shadowOffset: {
+			width: 0,
+			height: 0
+		},
+		shadowRadius: 2,
+		shadowOpacity: 1,
+	},
+	sliderTrack: {
+		height: 2,
+		backgroundColor: '#D3D3D3',
 	},
 	buttonsContainerBase: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		marginTop: 10
 	},
 	buttonsContainerTopRow: {
 		maxHeight: 40,
