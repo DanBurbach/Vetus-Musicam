@@ -24,7 +24,7 @@ import { audioBookPlaylist } from '../constants/audiobookPlaylist';
 const PLAYLIST = audioBookPlaylist;
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
-const BACKGROUND_COLOR = '#FFFFFF';
+const BACKGROUND_COLOR = 'black';
 const DISABLED_OPACITY = 0.5;
 const FONT_SIZE = 14;
 const LOADING_STRING = 'Loading...';
