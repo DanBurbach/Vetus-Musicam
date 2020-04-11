@@ -84,13 +84,13 @@ SettingsStack.navigationOptions = {
 };
 SettingsStack.path = '';
 
-const tabNavigator = createBottomTabNavigator({
+const MainTabNavigator = createBottomTabNavigator({
   HomeStack,
   RadioStack,
   LinksStack,
   SettingsStack,
 });
 
-tabNavigator.path = '';
+MainTabNavigator.path = '';
 
-export default tabNavigator;
+export default MainTabNavigator;
