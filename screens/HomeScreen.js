@@ -32,16 +32,23 @@ export default function HomeScreen() {
         <View style={styles.getStartedContainer}>
           <DevelopmentModeNotice />
 
-          <Text style={styles.getStartedText}>Get started by opening</Text>
+          {/* <Text style={styles.getStartedText}>Get started by opening</Text> */}
 
-          <View
+          {/* <View
             style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View>
 
           <Text style={styles.getStartedText}>
             Change this text and your app will automatically reload.
-          </Text>
+          </Text> */}
+
+          <Image 
+            source = {
+              require ('../assets/images/OnAirMic.jpg')
+            }
+            style={styles.homeScreenMainImage}
+          />
         </View>
 
         <View style={styles.helpContainer}>
@@ -53,7 +60,7 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
+      {/* <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
@@ -64,7 +71,7 @@ export default function HomeScreen() {
             navigation/MainTabNavigator.js
           </MonoText>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -141,6 +148,10 @@ const styles = StyleSheet.create({
   },
   homeScreenFilename: {
     marginVertical: 7,
+  },
+  homeScreenMainImage:{
+    width: 300,
+    height: 500,
   },
   codeHighlightText: {
     color: 'rgba(96,100,109, 0.8)',
