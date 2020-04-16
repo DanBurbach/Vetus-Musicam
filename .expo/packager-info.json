@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 40823,
-  "expoServerNgrokUrl": "https://kh-rk3.anonymous.vetus-musicam.exp.direct",
-  "packagerNgrokUrl": "https://packager.kh-rk3.anonymous.vetus-musicam.exp.direct",
-  "ngrokPid": 40833
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
