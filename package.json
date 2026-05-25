@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^9.5.0",
-    "jest-expo": "^49.0.0",
+    "jest-expo": "^56.0.4",
     "minimist": ">=1.2.6"
   },
   "private": true
